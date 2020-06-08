@@ -38,8 +38,9 @@ public:
     QVector<Pathway> pawnBeats (QPoint Position, const bool IsWhite, const bool IsFirstPlayer, ViewLabel* doubArrayViewLabel[8][8])const;
 
     QVector<Pathway> emptyWay  (QPoint Position, const Direction direction, ViewLabel* doubArrayViewLabel[8][8])const;
+    QVector<Pathway> emptyALLWay  (QPoint Position, ViewLabel* doubArrayViewLabel[8][8])const;
     QVector<Pathway> queenBeats(QPoint Position, const bool IsWhite, ViewLabel* doubArrayViewLabel[8][8])const;
-    QVector<Pathway> queenDirectionBeats (const QPoint Position, const Direction direction, const bool IsWhite, ViewLabel* doubArrayViewLabel[8][8]);
+    QVector<Pathway> queenDirectionBeats (const QPoint Position, const Direction direction, const bool IsWhite, ViewLabel* doubArrayViewLabel[8][8])const;
 
 
     virtual void calculate(ViewLabel* doubArrayViewLabel[8][8])=0;

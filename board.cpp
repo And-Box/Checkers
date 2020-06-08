@@ -301,7 +301,9 @@ Pathway* theBestChoice(QVector<Pathway> vPathway, QPoint newPosition){  // more 
          }
          count++;
      }
-     if (atLeastOne) { return &vPathway[bestPosition];  }
+     if (atLeastOne) {
+         Pathway* pPathway = new Pathway(vPathway[bestPosition]);
+         return pPathway;  }
      return nullptr;
 }
 
@@ -376,6 +378,7 @@ void Board::slotMoveLabel(QPoint position, QPoint newPosition){//посылае�
                 deleteFigures(vKnockedDownFigures);
                 figure->setPosition(newPosition);
                 calculate();
+                delete bestChoice;
                 return;
             }
 
