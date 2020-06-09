@@ -30,11 +30,11 @@ public:
     void setVPathway(Pathway);
     QVector<Pathway> getVPathway()const;
 
+//is it possible to beat from a position in the direction
 
+    bool isItPossibleToBeat (QPoint Position, const Direction direction, const bool IsWhite, ViewLabel* doubArrayViewLabel[8][8])const;
 
-    QVector<Pathway> figureDirectionBeats (QPoint Position, const Direction direction, const bool IsWhite, ViewLabel* doubArrayViewLabel[8][8])const;
-
-    QVector<Pathway> pawnStep  (ViewLabel* const doubArrayViewLabel[8][8])const;
+    QVector<Pathway> pawnStep  (ViewLabel* doubArrayViewLabel[8][8])const;
     QVector<Pathway> pawnBeats (QPoint Position, const bool IsWhite, const bool IsFirstPlayer, ViewLabel* doubArrayViewLabel[8][8])const;
 
     QVector<Pathway> emptyWay  (QPoint Position, const Direction direction, ViewLabel* doubArrayViewLabel[8][8])const;

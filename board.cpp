@@ -303,7 +303,8 @@ Pathway* theBestChoice(QVector<Pathway> vPathway, QPoint newPosition){  // more 
      }
      if (atLeastOne) {
          Pathway* pPathway = new Pathway(vPathway[bestPosition]);
-         return pPathway;  }
+         return pPathway;
+     }
      return nullptr;
 }
 

@@ -9,9 +9,8 @@ public:
     Pawn(bool IsWhite, bool IsQueen, QPoint Position);
     ~Pawn();
     void setPosition(QPoint Position) override;
-    void calculate(ViewLabel*  doubArrayViewLabel[8][8]) override;
+    void calculate( ViewLabel* doubArrayViewLabel[8][8]) override;
 
-//Pawn()=delete;
 
 signals:
     void signalReplaceFigure(Figure* I_AM);
