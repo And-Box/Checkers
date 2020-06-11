@@ -18,16 +18,6 @@ QPoint Label::getPosition()const{return position;}
 void Label::setLockedState(bool state){lockedState = state;}
 
 
-
-
-
-
-
-
-
-
-
-
 void Label::mousePressEvent(QMouseEvent *ev){
     if (!lockedState) {
         setMouseTracking(false);

@@ -342,9 +342,9 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
             nextCell = isEmptyNextCell(x-1,y-1);
             if (nextCell) {
                 Pathway pathway(Upper_LeftPoint);
-                pathway.setDirection(Upper_Left);
+                pathway.setDirection(direction);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Upper_LeftPoint, Upper_Left, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Upper_LeftPoint, direction, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -357,9 +357,9 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
             nextCell = isEmptyNextCell(x+1,y-1);
             if (nextCell) {
                 Pathway pathway(Upper_RightPoint);
-                pathway.setDirection(Upper_Right);
+                pathway.setDirection(direction);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Upper_RightPoint, Upper_Right, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Upper_RightPoint, direction, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -372,9 +372,9 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
             nextCell = isEmptyNextCell(x-1,y+1);
             if (nextCell) {
                 Pathway pathway(Down_LeftPoint);
-                pathway.setDirection(Down_Left);
+                pathway.setDirection(direction);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Down_LeftPoint, Down_Left, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Down_LeftPoint, direction, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -387,9 +387,9 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
             nextCell = isEmptyNextCell(x+1,y+1);
             if (nextCell) {
                 Pathway pathway(Down_RightPoint);
-                pathway.setDirection(Down_Right);
+                pathway.setDirection(direction);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Down_RightPoint, Down_Right, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Down_RightPoint, direction, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -421,10 +421,7 @@ QVector<Pathway> vPathwayDirection;
 int x = getPosition().x();
 int y = getPosition().y();
 
-//QVector<Direction> vDirection;
-//vDirection<<Upper_Left<<Upper_Right<<Down_Left<<Down_Right;
 
-//for (Direction direction : vDirection) {
     ///////////////////////////////  UPPER   ////////////////////////
     if (_UpperLeft) {
         nextCell = isEmptyNextCell(x-1,y-1);

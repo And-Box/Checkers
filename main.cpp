@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Widget w;
     //-----------------------------------------------------------------
-    QPixmap* boardCheckers     = new QPixmap;
+    QPixmap* boardCheckers  = new QPixmap;
 
     QPixmap whiteFigureChecker;
     QPixmap whiteFigureDame;
@@ -56,11 +56,14 @@ int main(int argc, char *argv[])
 
     QPushButton qbt1("Run");
     QPushButton qbt2("Get Back");
+    QPushButton qbt3("Save");
+    QPushButton qbt4("Load");
     hlay.addWidget(&qbt1,0,Qt::AlignLeft);
     hlay.addWidget(&qbt2,1,Qt::AlignLeft);
+    hlay.addWidget(&qbt3,1,Qt::AlignRight);
+    hlay.addWidget(&qbt4,0,Qt::AlignRight);
 
     QObject::connect(&qbt1,SIGNAL(clicked()),manager,SLOT(slotRun()));
-    //QObject::connect(&qbt2,SIGNAL(clicked()),&logic,SLOT(getBack()));
 
 
     QBoxLayout* lay  = new QBoxLayout(QBoxLayout::TopToBottom, &w);
