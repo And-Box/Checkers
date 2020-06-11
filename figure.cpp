@@ -24,6 +24,15 @@ QVector<Pathway> Figure::getVPathway()const {return  vPathway;}
 
 Figure::~Figure(){}
 
+QPoint pointFromVPathway(QVector <Pathway> vPathway){
+    if (!vPathway.empty()) {
+        Pathway workPathway = vPathway.back();
+        QPoint workPoint = workPathway.getPosition();
+        return workPoint;
+    }
+    return QPoint(0,0);
+}
+
 
 void Figure::clearPathway(){ if (!vPathway.empty()) { vPathway.clear(); }}
 
@@ -317,26 +326,11 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
 #define  _DownLeft   (x>0)&&(y<7)
 #define  _DownRight  (x<7)&&(y<7)
 
-//    ViewLabel* copyDoubArrayViewLabel[8][8];
-//    //copyDoubArrayViewLabel [[nullptr]];
-
-//    for (int i=0;i<8;i++) {
-//        for (int y=0;y<8;y++) {
-//            copyDoubArrayViewLabel[i][y]=nullptr;
-//        }
-//    }
-
-//    for (int i=0;i<8;i++) {
-//        for (int y=0;y<8;y++) {
-//            copyDoubArrayViewLabel[i][y]=doubArrayViewLabel[i][y];
-//        }
-//    }
-
-
 
     bool nextCell=false;
     QVector<Pathway> vPathway;
-    vPathway.empty();
+    vPathway.clear();                     ///?????????????????
+
     QVector<Pathway> vPathwayAfter;
     int x = Position.x();
     int y = Position.y();
@@ -350,7 +344,7 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
                 Pathway pathway(Upper_LeftPoint);
                 pathway.setDirection(Upper_Left);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Upper_LeftPoint, direction, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Upper_LeftPoint, Upper_Left, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -365,7 +359,7 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
                 Pathway pathway(Upper_RightPoint);
                 pathway.setDirection(Upper_Right);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Upper_RightPoint, direction, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Upper_RightPoint, Upper_Right, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -380,7 +374,7 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
                 Pathway pathway(Down_LeftPoint);
                 pathway.setDirection(Down_Left);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Down_LeftPoint, direction, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Down_LeftPoint, Down_Left, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -395,7 +389,7 @@ QVector<Pathway> Figure::emptyWay(QPoint Position, const Direction direction, Vi
                 Pathway pathway(Down_RightPoint);
                 pathway.setDirection(Down_Right);
                 vPathway<<pathway;
-                vPathwayAfter<<emptyWay(Down_RightPoint, direction, doubArrayViewLabel);
+                vPathwayAfter<<emptyWay(Down_RightPoint, Down_Right, doubArrayViewLabel);
                 if (!vPathwayAfter.empty()) {
                     vPathway<<vPathwayAfter;
                 }
@@ -469,7 +463,7 @@ int y = getPosition().y();
     if (_DownRight) {
         nextCell = isEmptyNextCell(x+1,y+1);
         if (nextCell) {
-
+            vPathwayDirection<<emptyWay(Position, Down_Right, doubArrayViewLabel);
             if (!vPathwayDirection.empty()) {
                 vPathway<<vPathwayDirection;
                 vPathwayDirection.clear();
@@ -511,12 +505,11 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
             if (UpperLeft) {
                 vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
                 if (!vFirstEmptyPathway.empty()) {
-                    Pathway workPathway = vFirstEmptyPathway.back();
-                    workPoint = workPathway.getPosition();
+                    workPoint = pointFromVPathway(vFirstEmptyPathway);
                     vFirstEmptyPathway.clear();
-                    vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
                 }
-                else {vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);}
+                else {workPoint = Position;}
+                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
             }
             break;
 
@@ -524,12 +517,11 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
             if (UpperRight) {
                 vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
                 if (!vFirstEmptyPathway.empty()) {
-                    Pathway workPathway = vFirstEmptyPathway.back();
-                    workPoint = workPathway.getPosition();
+                    workPoint = pointFromVPathway(vFirstEmptyPathway);
                     vFirstEmptyPathway.clear();
-                    vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
                 }
-                else {vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);}
+                else {workPoint = Position;}
+                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
             }
             break;
 
@@ -537,12 +529,11 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
             if (DownLeft) {
                 vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
                 if (!vFirstEmptyPathway.empty()) {
-                    Pathway workPathway = vFirstEmptyPathway.back();
-                    workPoint = workPathway.getPosition();
+                    workPoint = pointFromVPathway(vFirstEmptyPathway);
                     vFirstEmptyPathway.clear();
-                    vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
                 }
-                else {vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);}
+                else {workPoint = Position;}
+                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
             }
             break;
 
@@ -550,12 +541,11 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
             if (DownRight) {
                 vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
                 if (!vFirstEmptyPathway.empty()) {
-                    Pathway workPathway = vFirstEmptyPathway.back();
-                    workPoint = workPathway.getPosition();
+                    workPoint = pointFromVPathway(vFirstEmptyPathway);
                     vFirstEmptyPathway.clear();
-                    vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
                 }
-                else {vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);}
+                else {workPoint = Position;}
+                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
             }
             break;
 
@@ -570,43 +560,20 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
 
 
 QVector<Pathway> Figure::queenDirectionBeats (const QPoint Position, const Direction direction, const bool IsWhite, ViewLabel* doubArrayViewLabel[8][8])const{
-#define notEmptyNextCell(x,y) doubArrayViewLabel[x][y] != nullptr
-#define    emptyNextCell(x,y) doubArrayViewLabel[x][y] == nullptr
-#define            alien(x,y) doubArrayViewLabel[x][y]->getIsWhite() != IsWhite
+    #define Upper_LeftPoint  QPoint(x-1,y-1)
+    #define Upper_RightPoint QPoint(x+1,y-1)
+    #define  Down_LeftPoint  QPoint(x-1,y+1)
+    #define  Down_RightPoint QPoint(x+1,y+1)
 
-#define Upper_LeftPoint  QPoint(x-1,y-1)
-#define Upper_RightPoint QPoint(x+1,y-1)
-#define  Down_LeftPoint  QPoint(x-1,y+1)
-#define  Down_RightPoint QPoint(x+1,y+1)
-
-#define Upper_LeftJump  QPoint(x-2,y-2)
-#define Upper_RightJump QPoint(x+2,y-2)
-#define  Down_LeftJump  QPoint(x-2,y+2)
-#define  Down_RightJump QPoint(x+2,y+2)
-
-#define  UpperLeft  (x>1)&&(y>1)
-#define  UpperRight (x<6)&&(y>1)
-#define  DownLeft   (x>1)&&(y<6)
-#define  DownRight  (x<6)&&(y<6)
-
-
-
-//    #define  UpperLeft_op  (x-1,y-1)
-//    #define  UpperRight_op ((x+1),(y-1))
-//    #define  DownLeft_op   ((x-1),(y+1))
-//    #define  DownRight_op  ((x+1),(y+1))
-
+    #define  UpperLeft  (x>1)&&(y>1)
+    #define  UpperRight (x<6)&&(y>1)
+    #define  DownLeft   (x>1)&&(y<6)
+    #define  DownRight  (x<6)&&(y<6)
 
     int x = Position.x();
     int y = Position.y();
 
     QPoint workPoint;
-
-
-
-
-
-
 
     QVector<Pathway> vPathway;
     vPathway.clear();                       //?????????????????????
@@ -621,10 +588,8 @@ QVector<Pathway> Figure::queenDirectionBeats (const QPoint Position, const Direc
 
     case Upper_Left:
         if (UpperLeft) {
-
-todo
-            vPathwayBefore<<emptyWay(Upper_LeftPoint,direction,doubArrayViewLabel);
-            if (!vPathwayBefore.empty()) {
+            if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
+                vPathwayBefore<<emptyWay(Upper_LeftPoint,direction,doubArrayViewLabel);
                 for (Pathway pathway : vPathwayBefore) {
                     Pathway pathwayModifier = pathway;
                     pathwayModifier.setCount(1);
@@ -633,23 +598,22 @@ todo
                 }
                 vPathwayBefore.clear();
                 vPathwayBefore<<vPathwayModifier;
-                vPathway<<vPathwayModifier;
                 vPathwayModifier.clear();
-
-                Pathway workPathway = vPathwayBefore.back();
-                workPoint = workPathway.getPosition();
-                int x= workPoint.x();
-                int y= workPoint.y();
-
-                workPoint = QPoint(x-1,y-1);
-                vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-                if (!vPathwayAfter.empty()) {
-                    for (Pathway pathway : vPathwayAfter) {
-                        Pathway pathwayModifier = pathway+workPathway;
-                        vPathwayModifier<<pathwayModifier;
+                vPathway<<vPathwayBefore;
+                workPoint = pointFromVPathway(vPathwayBefore);
+                //first end
+                // two start recursion
+                if (isItPossibleToBeat(workPoint,direction,IsWhite,doubArrayViewLabel)){
+                    vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
+                    if (!vPathwayAfter.empty()) {
+                        for (Pathway pathway : vPathwayAfter) {
+                            Pathway workPathway = vPathwayBefore.back();
+                            Pathway pathwayModifier = pathway+workPathway;
+                            vPathwayModifier<<pathwayModifier;
+                        }
+                        vPathway<<vPathwayModifier;
+                        vPathwayModifier.clear();
                     }
-                    vPathway<<vPathwayModifier;
-                    vPathwayModifier.clear();
                 }
             }
         }
@@ -657,8 +621,8 @@ todo
 
     case Upper_Right:
         if (UpperRight) {
-            vPathwayBefore<<emptyWay(Upper_RightPoint,direction,doubArrayViewLabel);
-            if (!vPathwayBefore.empty()) {
+            if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
+                vPathwayBefore<<emptyWay(Upper_RightPoint,direction,doubArrayViewLabel);
                 for (Pathway pathway : vPathwayBefore) {
                     Pathway pathwayModifier = pathway;
                     pathwayModifier.setCount(1);
@@ -667,32 +631,32 @@ todo
                 }
                 vPathwayBefore.clear();
                 vPathwayBefore<<vPathwayModifier;
-                vPathway<<vPathwayModifier;
                 vPathwayModifier.clear();
-
-                Pathway workPathway = vPathwayBefore.back();
-                workPoint = workPathway.getPosition();
-                int x= workPoint.x();
-                int y= workPoint.y();
-
-                workPoint = QPoint(x+1,y-1);
-                vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-                if (!vPathwayAfter.empty()) {
-                    for (Pathway pathway : vPathwayAfter) {
-                        Pathway pathwayModifier = pathway+workPathway;
-                        vPathwayModifier<<pathwayModifier;
+                vPathway<<vPathwayBefore;
+                workPoint = pointFromVPathway(vPathwayBefore);
+                //first end
+                // two start recursion
+                if (isItPossibleToBeat(workPoint,direction,IsWhite,doubArrayViewLabel)){
+                    vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
+                    if (!vPathwayAfter.empty()) {
+                        for (Pathway pathway : vPathwayAfter) {
+                            Pathway workPathway = vPathwayBefore.back();
+                            Pathway pathwayModifier = pathway+workPathway;
+                            vPathwayModifier<<pathwayModifier;
+                        }
+                        vPathway<<vPathwayModifier;
+                        vPathwayModifier.clear();
                     }
-                    vPathway<<vPathwayModifier;
-                    vPathwayModifier.clear();
                 }
             }
+
         }
         break;
 
     case Down_Left:
         if (DownLeft) {
-            vPathwayBefore<<emptyWay(Down_LeftPoint,direction,doubArrayViewLabel);
-            if (!vPathwayBefore.empty()) {
+            if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
+                vPathwayBefore<<emptyWay(Down_LeftPoint,direction,doubArrayViewLabel);
                 for (Pathway pathway : vPathwayBefore) {
                     Pathway pathwayModifier = pathway;
                     pathwayModifier.setCount(1);
@@ -701,23 +665,22 @@ todo
                 }
                 vPathwayBefore.clear();
                 vPathwayBefore<<vPathwayModifier;
-                vPathway<<vPathwayModifier;
                 vPathwayModifier.clear();
-
-                Pathway workPathway = vPathwayBefore.back();
-                workPoint = workPathway.getPosition();
-                int x= workPoint.x();
-                int y= workPoint.y();
-
-                workPoint = QPoint(x-1,y+1);
-                vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-                if (!vPathwayAfter.empty()) {
-                    for (Pathway pathway : vPathwayAfter) {
-                        Pathway pathwayModifier = pathway+workPathway;
-                        vPathwayModifier<<pathwayModifier;
+                vPathway<<vPathwayBefore;
+                workPoint = pointFromVPathway(vPathwayBefore);
+                //first end
+                // two start recursion
+                if (isItPossibleToBeat(workPoint,direction,IsWhite,doubArrayViewLabel)){
+                    vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
+                    if (!vPathwayAfter.empty()) {
+                        for (Pathway pathway : vPathwayAfter) {
+                            Pathway workPathway = vPathwayBefore.back();
+                            Pathway pathwayModifier = pathway+workPathway;
+                            vPathwayModifier<<pathwayModifier;
+                        }
+                        vPathway<<vPathwayModifier;
+                        vPathwayModifier.clear();
                     }
-                    vPathway<<vPathwayModifier;
-                    vPathwayModifier.clear();
                 }
             }
         }
@@ -725,8 +688,8 @@ todo
 
     case Down_Right:
         if (DownRight) {
-            vPathwayBefore<<emptyWay(Down_RightPoint,direction,doubArrayViewLabel);
-            if (!vPathwayBefore.empty()) {
+            if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
+                vPathwayBefore<<emptyWay(Down_RightPoint,direction,doubArrayViewLabel);
                 for (Pathway pathway : vPathwayBefore) {
                     Pathway pathwayModifier = pathway;
                     pathwayModifier.setCount(1);
@@ -735,37 +698,31 @@ todo
                 }
                 vPathwayBefore.clear();
                 vPathwayBefore<<vPathwayModifier;
-                vPathway<<vPathwayModifier;
                 vPathwayModifier.clear();
-
-                Pathway workPathway = vPathwayBefore.back();
-                workPoint = workPathway.getPosition();
-                int x= workPoint.x();
-                int y= workPoint.y();
-
-                workPoint = QPoint(x-1,y+1);
-                vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-                if (!vPathwayAfter.empty()) {
-                    for (Pathway pathway : vPathwayAfter) {
-                        Pathway pathwayModifier = pathway+workPathway;
-                        vPathwayModifier<<pathwayModifier;
+                vPathway<<vPathwayBefore;
+                workPoint = pointFromVPathway(vPathwayBefore);
+                //first end
+                // two start recursion
+                if (isItPossibleToBeat(workPoint,direction,IsWhite,doubArrayViewLabel)){
+                    vPathwayAfter<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
+                    if (!vPathwayAfter.empty()) {
+                        for (Pathway pathway : vPathwayAfter) {
+                            Pathway workPathway = vPathwayBefore.back();
+                            Pathway pathwayModifier = pathway+workPathway;
+                            vPathwayModifier<<pathwayModifier;
+                        }
+                        vPathway<<vPathwayModifier;
+                        vPathwayModifier.clear();
                     }
-                    vPathway<<vPathwayModifier;
-                    vPathwayModifier.clear();
                 }
             }
         }
         break;
 
-
-
     }
 
-
-    //doubArrayViewLabel[x][y]=I_AM;
     return vPathway;
 }
-
 
 
 
