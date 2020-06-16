@@ -480,6 +480,18 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
     #define  DownLeft   (x>1)&&(y<6)
     #define  DownRight  (x<6)&&(y<6)
 
+#define _queenBeats                                                     \
+    vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);\
+    if (!vFirstEmptyPathway.empty()) {\
+        workPoint = pointFromVPathway(vFirstEmptyPathway);\
+        vFirstEmptyPathway.clear();\
+    }\
+    else {workPoint = Position;}\
+    vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);\
+
+
+
+
     QVector<Pathway> vWorkPathway;
     QVector<Pathway> vFirstEmptyPathway;
     QVector<Pathway> vPathway;
@@ -499,51 +511,19 @@ QVector<Pathway> Figure::queenBeats(QPoint Position, const bool IsWhite, ViewLab
 
 
         case Upper_Left:
-            if (UpperLeft) {
-                vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
-                if (!vFirstEmptyPathway.empty()) {
-                    workPoint = pointFromVPathway(vFirstEmptyPathway);
-                    vFirstEmptyPathway.clear();
-                }
-                else {workPoint = Position;}
-                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-            }
+            if (UpperLeft) { _queenBeats }
             break;
 
         case Upper_Right:
-            if (UpperRight) {
-                vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
-                if (!vFirstEmptyPathway.empty()) {
-                    workPoint = pointFromVPathway(vFirstEmptyPathway);
-                    vFirstEmptyPathway.clear();
-                }
-                else {workPoint = Position;}
-                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-            }
+            if (UpperRight) { _queenBeats }
             break;
 
         case Down_Left:
-            if (DownLeft) {
-                vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
-                if (!vFirstEmptyPathway.empty()) {
-                    workPoint = pointFromVPathway(vFirstEmptyPathway);
-                    vFirstEmptyPathway.clear();
-                }
-                else {workPoint = Position;}
-                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-            }
+            if (DownLeft) { _queenBeats }
             break;
 
         case Down_Right:
-            if (DownRight) {
-                vFirstEmptyPathway<<emptyWay(Position,direction,doubArrayViewLabel);
-                if (!vFirstEmptyPathway.empty()) {
-                    workPoint = pointFromVPathway(vFirstEmptyPathway);
-                    vFirstEmptyPathway.clear();
-                }
-                else {workPoint = Position;}
-                vPathway<<queenDirectionBeats(workPoint,direction,IsWhite,doubArrayViewLabel);
-            }
+            if (DownRight) { _queenBeats }
             break;
 
 
