@@ -42,16 +42,6 @@ bool Figure::isItPossibleToBeat (QPoint Position, const Direction direction, con
     #define    emptyNextCell(x,y) doubArrayViewLabel[x][y] == nullptr
     #define            alien(x,y) doubArrayViewLabel[x][y]->getIsWhite() != IsWhite
 
-//    #define Upper_LeftPoint  QPoint(x-1,y-1)
-//    #define Upper_RightPoint QPoint(x+1,y-1)
-//    #define  Down_LeftPoint  QPoint(x-1,y+1)
-//    #define  Down_RightPoint QPoint(x+1,y+1)
-
-//    #define Upper_LeftJump  QPoint(x-2,y-2)
-//    #define Upper_RightJump QPoint(x+2,y-2)
-//    #define  Down_LeftJump  QPoint(x-2,y+2)
-//    #define  Down_RightJump QPoint(x+2,y+2)
-
     #define  UpperLeft  (x>1)&&(y>1)
     #define  UpperRight (x<6)&&(y>1)
     #define  DownLeft   (x>1)&&(y<6)
@@ -181,8 +171,8 @@ QVector<Pathway> Figure::pawnBeats(QPoint Position, bool IsWhite, bool IsFirstPl
     if (!IsFirstPlayer && y==7) {return vPathway;}
     //
 
-    bool nextCell=false;
-    bool nextCellJump=false;
+    //bool nextCell=false;
+    //bool nextCellJump=false;
     ViewLabel* I_AM =doubArrayViewLabel[x][y];
     doubArrayViewLabel[x][y]=nullptr;              //<---------------&7777777777
     QVector<Direction> vDirection;
@@ -195,113 +185,161 @@ QVector<Pathway> Figure::pawnBeats(QPoint Position, bool IsWhite, bool IsFirstPl
         switch (direction) {
         case Upper_Left:
             if (UpperLeft) {
-                nextCell =  notEmptyNextCell(x-1,y-1);
-                nextCellJump = emptyNextCell(x-2,y-2);
-                if (nextCell && nextCellJump) {
-                    if (alien(x-1,y-1)) {
+                if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
                     Pathway curentPathway = Pathway(Upper_LeftJump);
                     curentPathway.setCount(1);
                     curentPathway.setDownedPoints(Upper_LeftPoint);
-                    ViewLabel* copyViewLabel=doubArrayViewLabel[x-1][y-1];
-                    doubArrayViewLabel[x-1][y-1]=nullptr;
-                    QVector<Pathway> vAfterPathway;
-                    vAfterPathway << pawnBeats(Upper_LeftJump, IsWhite, IsFirstPlayer, doubArrayViewLabel);
-                    if (!vAfterPathway.empty()) {
-                        for (Pathway pathway : vAfterPathway) {
-                            vPathway<<pathway+curentPathway;
-                            }
-                        doubArrayViewLabel[x-1][y-1]=copyViewLabel;
-                        break;
-
-                    }
                     vPathway<<curentPathway;
-                    doubArrayViewLabel[x-1][y-1]=copyViewLabel;
-                    }
                 }
+
+
+
+//                nextCell =  notEmptyNextCell(x-1,y-1);
+//                nextCellJump = emptyNextCell(x-2,y-2);
+//                if (nextCell && nextCellJump) {
+//                    if (alien(x-1,y-1)) {
+//                    Pathway curentPathway = Pathway(Upper_LeftJump);
+//                    curentPathway.setCount(1);
+//                    curentPathway.setDownedPoints(Upper_LeftPoint);
+//                    ViewLabel* copyViewLabel=doubArrayViewLabel[x-1][y-1];
+//                    doubArrayViewLabel[x-1][y-1]=nullptr;
+//                    QVector<Pathway> vAfterPathway;
+//                    vAfterPathway << pawnBeats(Upper_LeftJump, IsWhite, IsFirstPlayer, doubArrayViewLabel);
+//                    if (!vAfterPathway.empty()) {
+//                        for (Pathway pathway : vAfterPathway) {
+//                            vPathway<<pathway+curentPathway;
+//                            }
+//                        doubArrayViewLabel[x-1][y-1]=copyViewLabel;
+//                        break;
+
+//                    }
+//                    vPathway<<curentPathway;
+//                    doubArrayViewLabel[x-1][y-1]=copyViewLabel;
+//                    }
+//                }
             }
             break;
 
         case Upper_Right:
             if (UpperRight) {
-                nextCell =  notEmptyNextCell(x+1,y-1);
-                nextCellJump = emptyNextCell(x+2,y-2);
-                if (nextCell && nextCellJump) {
-                    if (alien(x+1,y-1)) {
+                if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
                     Pathway curentPathway = Pathway(Upper_RightJump);
                     curentPathway.setCount(1);
                     curentPathway.setDownedPoints(Upper_RightPoint);
-                    ViewLabel* copyViewLabel=doubArrayViewLabel[x+1][y-1];
-                    doubArrayViewLabel[x+1][y-1]=nullptr;
-                    QVector<Pathway> vAfterPathway;
-                    vAfterPathway << pawnBeats(Upper_RightJump, IsWhite, IsFirstPlayer, doubArrayViewLabel);
-                    if (!vAfterPathway.empty() ) {
-                        for (Pathway pathway : vAfterPathway) {
-                            vPathway<<pathway+curentPathway;
-                            }
-                        doubArrayViewLabel[x+1][y-1]=copyViewLabel;
-                        break;
-
-                    }
                     vPathway<<curentPathway;
-                    doubArrayViewLabel[x+1][y-1]=copyViewLabel;
-                    }
                 }
+
+
+
+
+
+
+
+
+//                nextCell =  notEmptyNextCell(x+1,y-1);
+//                nextCellJump = emptyNextCell(x+2,y-2);
+//                if (nextCell && nextCellJump) {
+//                    if (alien(x+1,y-1)) {
+//                    Pathway curentPathway = Pathway(Upper_RightJump);
+//                    curentPathway.setCount(1);
+//                    curentPathway.setDownedPoints(Upper_RightPoint);
+//                    ViewLabel* copyViewLabel=doubArrayViewLabel[x+1][y-1];
+//                    doubArrayViewLabel[x+1][y-1]=nullptr;
+//                    QVector<Pathway> vAfterPathway;
+//                    vAfterPathway << pawnBeats(Upper_RightJump, IsWhite, IsFirstPlayer, doubArrayViewLabel);
+//                    if (!vAfterPathway.empty() ) {
+//                        for (Pathway pathway : vAfterPathway) {
+//                            vPathway<<pathway+curentPathway;
+//                            }
+//                        doubArrayViewLabel[x+1][y-1]=copyViewLabel;
+//                        break;
+
+//                    }
+//                    vPathway<<curentPathway;
+//                    doubArrayViewLabel[x+1][y-1]=copyViewLabel;
+//                    }
+//                }
             }
             break;
 
         case Down_Left:
             if (DownLeft) {
-                nextCell =  notEmptyNextCell(x-1,y+1);
-                nextCellJump = emptyNextCell(x-2,y+2);
-                if (nextCell && nextCellJump) {
-                    if (alien(x-1,y+1)) {
+                if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
                     Pathway curentPathway = Pathway(Down_LeftJump);
                     curentPathway.setCount(1);
                     curentPathway.setDownedPoints(Down_LeftPoint);
-                    ViewLabel* copyViewLabel=doubArrayViewLabel[x-1][y+1];
-                    doubArrayViewLabel[x-1][y+1]=nullptr;
-                    QVector<Pathway> vAfterPathway;
-                    vAfterPathway << pawnBeats(Down_LeftJump, IsWhite, !IsFirstPlayer, doubArrayViewLabel);
-                    if (!vAfterPathway.empty()) {
-                        for (Pathway pathway : vAfterPathway) {
-                            vPathway<<pathway+curentPathway;
-                            }
-                        doubArrayViewLabel[x-1][y+1]=copyViewLabel;
-                        break;
-
-                    }
                     vPathway<<curentPathway;
-                    doubArrayViewLabel[x-1][y+1]=copyViewLabel;
-                    }
                 }
+
+
+
+
+
+
+
+//                nextCell =  notEmptyNextCell(x-1,y+1);
+//                nextCellJump = emptyNextCell(x-2,y+2);
+//                if (nextCell && nextCellJump) {
+//                    if (alien(x-1,y+1)) {
+//                    Pathway curentPathway = Pathway(Down_LeftJump);
+//                    curentPathway.setCount(1);
+//                    curentPathway.setDownedPoints(Down_LeftPoint);
+//                    ViewLabel* copyViewLabel=doubArrayViewLabel[x-1][y+1];
+//                    doubArrayViewLabel[x-1][y+1]=nullptr;
+//                    QVector<Pathway> vAfterPathway;
+//                    vAfterPathway << pawnBeats(Down_LeftJump, IsWhite, !IsFirstPlayer, doubArrayViewLabel);
+//                    if (!vAfterPathway.empty()) {
+//                        for (Pathway pathway : vAfterPathway) {
+//                            vPathway<<pathway+curentPathway;
+//                            }
+//                        doubArrayViewLabel[x-1][y+1]=copyViewLabel;
+//                        break;
+
+//                    }
+//                    vPathway<<curentPathway;
+//                    doubArrayViewLabel[x-1][y+1]=copyViewLabel;
+//                    }
+//                }
             }
             break;
 
         case Down_Right:
             if (DownRight) {
-                nextCell =  notEmptyNextCell(x+1,y+1);
-                nextCellJump = emptyNextCell(x+2,y+2);
-                if (nextCell && nextCellJump) {
-                    if (alien(x+1,y+1)) {
+                if (isItPossibleToBeat(Position,direction,IsWhite,doubArrayViewLabel)) {
                     Pathway curentPathway = Pathway(Down_RightJump);
                     curentPathway.setCount(1);
                     curentPathway.setDownedPoints(Down_RightPoint);
-                    ViewLabel* copyViewLabel=doubArrayViewLabel[x+1][y+1];
-                    doubArrayViewLabel[x+1][y+1]=nullptr;
-                    QVector<Pathway> vAfterPathway;
-                    vAfterPathway << pawnBeats(Down_RightJump, IsWhite, !IsFirstPlayer, doubArrayViewLabel);
-                    if (!vAfterPathway.empty()) {
-                        for (Pathway pathway : vAfterPathway) {
-                            vPathway<<pathway+curentPathway;
-                            }
-                        doubArrayViewLabel[x+1][y+1]=copyViewLabel;
-                        break;
-
-                    }
                     vPathway<<curentPathway;
-                    doubArrayViewLabel[x+1][y+1]=copyViewLabel;
                     }
-                }
+
+
+
+
+
+
+//                nextCell =  notEmptyNextCell(x+1,y+1);
+//                nextCellJump = emptyNextCell(x+2,y+2);
+//                if (nextCell && nextCellJump) {
+//                    if (alien(x+1,y+1)) {
+//                    Pathway curentPathway = Pathway(Down_RightJump);
+//                    curentPathway.setCount(1);
+//                    curentPathway.setDownedPoints(Down_RightPoint);
+//                    ViewLabel* copyViewLabel=doubArrayViewLabel[x+1][y+1];
+//                    doubArrayViewLabel[x+1][y+1]=nullptr;
+//                    QVector<Pathway> vAfterPathway;
+//                    vAfterPathway << pawnBeats(Down_RightJump, IsWhite, !IsFirstPlayer, doubArrayViewLabel);
+//                    if (!vAfterPathway.empty()) {
+//                        for (Pathway pathway : vAfterPathway) {
+//                            vPathway<<pathway+curentPathway;
+//                            }
+//                        doubArrayViewLabel[x+1][y+1]=copyViewLabel;
+//                        break;
+
+//                    }
+//                    vPathway<<curentPathway;
+//                    doubArrayViewLabel[x+1][y+1]=copyViewLabel;
+//                    }
+//                }
             }
             break;
 
